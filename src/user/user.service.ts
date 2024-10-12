@@ -74,6 +74,21 @@ export class UserService {
         return user;
     }
 
+    async updateUser(id:number, data: { name?: string, email?: string }) {
+        const user = await this.prisma.user.update({
+            where: { id },
+            data
+        })
+        return user
+    }
 
+    async deleteUser(id:number) {
+        try {
+            await this.prisma.user.delete({ where: { id } });
+            return { message: 'deleted successfully' };
+        } catch (error) {
+            throw new NotFoundException('User not found');
+        }
+    }
 
 }

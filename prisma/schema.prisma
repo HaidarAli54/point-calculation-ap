@@ -21,6 +21,8 @@ model User {
   token     String?       // Token untuk autentikasi, optional
   points    Int           @default(0)
   createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  deletedAt DateTime?
   transactions Transaction[]
 }
 
