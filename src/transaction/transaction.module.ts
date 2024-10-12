@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { TransactionController } from './transaction.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtAuthGuard } from 'src/jwt.token';
+import { JwtAuthGuard } from '../jwt.token';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma.service';
 @Module({

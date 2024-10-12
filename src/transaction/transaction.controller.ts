@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Param, Get, UseGuards } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { JwtAuthGuard } from 'src/jwt.token';
+import { JwtAuthGuard } from '../jwt.token';
 
 @Controller('/api/transaction')
 export class TransactionController {
@@ -16,5 +16,12 @@ export class TransactionController {
     @Get(':userId')
     getUserTransactions(@Param('userId') userId : number) {
         return this.transactionService.getTransactions(Number(userId));
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post(':transactionId')
+    updateTransaction(@Param('transactionId') transactionId : number, @Body() body : { amount?: number }) {
+        const id = Number(transactionId);
+        return this.transactionService.updateTransaction(id, body);
     }
 }

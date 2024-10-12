@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()
@@ -38,5 +38,23 @@ export class TransactionService {
 
     async getTransactions(userId: number) {
         return this.prisma.transaction.findMany({ where: {userId} })
+    }
+
+    async updateTransaction(transactionId: number, data: { amount?: number }) {
+        const transaction = await this.prisma.transaction.findUnique({
+            where: { id: transactionId },
+        });
+
+        if (!transaction) {
+            throw new NotFoundException('Transaction not found');
+        }
+
+        return this.prisma.transaction.update({
+            where: { id: transactionId },
+            data: {
+                amount: data.amount,
+                updatedAt: new Date(),
+            }
+        })
     }
 }
