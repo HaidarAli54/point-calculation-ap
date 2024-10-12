@@ -60,8 +60,10 @@ export class UserService {
         if (!user) {
             throw new NotFoundException('User not found');
         }
+
+        const { password, token, ...userWithoutSensitiveInfo } = user;
     
-        return user;
+        return userWithoutSensitiveInfo;
     }
 
     async findUserByEmail(email: string) {
@@ -71,7 +73,9 @@ export class UserService {
             throw new NotFoundException('User not found');
         }
     
-        return user;
+        const { password, token, ...userWithoutSensitiveInfo } = user;
+    
+        return userWithoutSensitiveInfo;
     }
 
     async updateUser(id:number, data: { name?: string, email?: string }) {
@@ -79,7 +83,9 @@ export class UserService {
             where: { id },
             data
         })
-        return user
+        const { password, token, ...userWithoutSensitiveInfo } = user;
+    
+        return userWithoutSensitiveInfo;
     }
 
     async deleteUser(id:number) {
